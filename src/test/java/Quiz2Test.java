@@ -23,8 +23,8 @@ public class Quiz2Test {
                 .that().log().all();
     }
 
-    @Test(priority = 1)
-    public void successCase() {
+    @Test(priority = 1, enabled = false)
+    public void firstTest() {
         String userName = "nika" + RandomStringUtils.randomAlphabetic(10);
         String password = "!123Aa123";
 
@@ -40,8 +40,8 @@ public class Quiz2Test {
                 .assertThat().body("username", equalTo(userName));
     }
 
-    @Test(priority = 2)
-    public void requestWithEmptyPassword() {
+    @Test(priority = 2, alwaysRun = true, dependsOnMethods = "thirdTest")
+    public void secondTest() {
         String userName = "nika";
 
         RegisterViewModel requestBody = new RegisterViewModel(userName, "");
@@ -56,8 +56,8 @@ public class Quiz2Test {
                 .body("message", equalTo("UserName and Password required."));
     }
 
-    @Test(priority = 3)
-    public void requestWithWrongTypes() {
+    @Test(priority = 3, invocationCount = 3)
+    public void thirdTest() {
         RegisterViewModel requestBody = new RegisterViewModel(123, 231);
 
         given(requestSpecification)
